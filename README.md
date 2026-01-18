@@ -36,7 +36,7 @@ Example: /drop 2 Iron Bar
 Reply: You drop 2 Iron Bar on the forge.
 Note: You can leave the amount empty to drop just one item.
 
-~Custom Commands~
+Custom Commands
 
 You can define custom commands in the Custom Commands card.
 

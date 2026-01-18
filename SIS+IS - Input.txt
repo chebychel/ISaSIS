@@ -1,0 +1,8 @@
+InnerSelf("input");
+
+const modifier = (text) => {
+  text = SIS_onInput(text);
+  return { text };
+};
+
+modifier(text);

@@ -1,0 +1,32 @@
+// Gate parser for add command validation
+(function parseGate() {
+  try {
+    if (!state || !state.vars) return;
+
+    // Check if ANY kind of gate is currently pending (wallet, inventory, or legacy flag)
+    var pending = !!(state.vars.awaitingGate || state.vars.awaitingMoneyGate || state.vars.awaitingInvGate);
+    if (!pending) return;
+
+    // Look for a single-line verdict "APPROVE" or "REJECT" in the model's output
+    var rxVerdict = /^\s*(APPROVE|REJECT)\s*$/im;
+    var m = String(text || "").match(rxVerdict);
+    if (!m) return;
+
+    // Store the verdict and mark the unified flag resolved.
+    state.vars.lastGateVerdict = String(m[1] || "").toUpperCase();
+    state.vars.awaitingGate = false;
+
+    // Clear the temporary system prompt from frontMemory once verdict captured.
+    if (state.memory) state.memory.frontMemory = "";
+  } catch (e) {}
+})();
+
+// ===== Main Output Modifier =====
+InnerSelf("output");
+
+const modifier = (text) => {
+  text = SIS_onOutput(text);
+  return { text };
+};
+
+modifier(text);
